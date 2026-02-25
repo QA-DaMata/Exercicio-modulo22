@@ -1,5 +1,5 @@
 /// <reference types="cypress"/>
-import { faker } from "@faker-js/faker";
+
 const btnSignUP = '[data-testid="signUp"]'
 const firstName = '[data-testid="firstName"]'
 const lastName = '[data-testid="lastName"]'
@@ -10,28 +10,44 @@ const confirmpdw = '[data-testid="repassword"]'
 const btnCreate = '[data-testid="create"]'
 const checkName = '[data-testid="CustomerName"]'
 const checkPhone = '[data-testid="CustomerPhone"]'
-const inputFirstName = faker.person.firstName()
-const inputLastName = faker.person.lastName()
-const inputPhone = '(11) 98722-4321'
-const inputEmail = faker.internet.email({ firstName: `${inputFirstName}`, lastName: `${inputLastName}` })
-const inputpwd = 'Admin123@'
+const warning = '[data-testid="warning"]'
+const logOut = '.r-14lw9ot > :nth-child(5)'
+const confirmLogOut = '[data-testid="confirm"]'
 
 export const CreateAccount = {
-    data() {
-
+    data(inputFirstName, inputLastName, inputPhone, inputEmail, inputpwd, inputConfirmpwd) {
         cy.get(btnSignUP).click()
         cy.get(firstName).type(inputFirstName)
         cy.get(lastName).type(inputLastName)
         cy.get(phone).type(inputPhone)
         cy.get(email).eq(1).type(inputEmail)
         cy.get(pwd).eq(1).type(inputpwd)
-        cy.get(confirmpdw).type(inputpwd)
+        cy.get(confirmpdw).type(inputConfirmpwd)
+
+    },
+
+    sendUser() {
         cy.get(btnCreate).click()
     },
 
-    validateAccount() {
-        cy.get(checkName).should('contain', inputFirstName)
-        cy.get(checkPhone).should('contain', inputPhone)
-        
+    validateAccount(name, phone) {
+        cy.get(checkName).should('contain', name)
+        cy.get(checkPhone).should('contain', phone)
+    },
+
+    nullFields(field, eq) {
+        let option = `[data-testid="${field}"]`
+        cy.get(option).eq(eq).clear({ multiple: true })
+    },
+
+    warning(value) {
+        cy.get(warning).should('exist')
+        cy.get(warning).should('contain.text', value)
+    },
+
+    logOut(){
+        cy.get(logOut).click()
+        cy.get(confirmLogOut).click()
     }
+
 }

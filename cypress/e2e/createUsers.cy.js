@@ -9,7 +9,6 @@ describe('template spec', () => {
     VisitPage.visit()
   });
 
-
   it('Deve criar o usuário com sucesso', () => {
     let user = users.usersData()
 

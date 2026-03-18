@@ -3,7 +3,7 @@ import { MenuPage } from "../support/pages/menu.page";
 import { CreateAccount } from "../support/pages/createAccount.page";
 import users from '../fixtures/factories/createUsers'
 
-describe('template spec', () => {
+describe('Teste de criação de usuário', () => {
 
   beforeEach(() => {
     VisitPage.visit()

@@ -1,25 +1,23 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import { LoginAccount } from "./pages/login.page";
+import { MenuPage } from "../support/pages/menu.page";
+import { Products } from "./pages/products.page";
+
+
+Cypress.Commands.add('login', (email, senha) => {
+    cy.setCookie('ebacStoreVersion', 'v2', { domain: 'lojaebac.ebaconline.art.br' }) //Para setar cookies na aplicação
+    cy.visit('/')
+    MenuPage.menu('Account')
+    LoginAccount.login(email, senha)
+})
+
+Cypress.Commands.add('addProducts', () => {
+    Products.addProducts()
+    MenuPage.menu('Order')
+    Products.deleteOrder()
+})
+
+Cypress.Commands.add('changeStockQuantity', () => {
+    Products.changeStockQuantity()
+    MenuPage.menu('Order')
+    Products.deleteOrder()
+})
